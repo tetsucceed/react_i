@@ -1,6 +1,7 @@
 // CommonJS
 const webpack = require('webpack');
 const path = require('path');
+// const HtmlWebpackPlugin
 
 module.exports = {
     mode: 'development',
@@ -20,9 +21,20 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 options: {
-                    presets: ['@babel/env', '@babel/preset-react'],
+                    presets: [
+                        '@babel/env',
+                        [
+                            '@babel/preset-react',
+                            {
+                                runtime: 'automatic',
+                            },
+                        ],
+                    ],
                 },
             },
         ],
+    },
+    resolve: {
+        extensions: ['.js', '.jsx'],
     },
 };
