@@ -1,42 +1,30 @@
 import { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 
 class Messages extends Component {
-    static propTypes = {
-        messages: PropTypes.array.isRequired,
-        count: PropTypes.number,
-        handleClick: PropTypes.func,
-    };
-
-    static defaultProps = {
-        messages: [],
-    };
-
+    // useState
     state = {
-        intervalId: null,
+        messages: ['Hello world', 'How are you?'],
     };
 
-    componentDidMount() {
-        console.log('componentDidMount');
-        const id = setInterval(() => {
-            console.log('hello from interval');
-        }, 1000);
+    addMessage = () => {
+        this.setState({ messages: [...this.state.messages, 'Whassap?'] });
+    };
 
-        this.setState({ intervalId: id });
-    }
-
+    // useEffect => didMount, didUpdate, willUnmount
     componentDidUpdate() {
         console.log('componentDidUpdate');
-    }
-
-    componentWillUnmount() {
-        console.log('componentWillUnmount');
-        clearInterval(this.state.intervalId);
+        if (this.state.messages.length % 2 === 1) {
+            setTimeout(() => {
+                this.setState({
+                    messages: [...this.state.messages, 'I am just robot'],
+                });
+            }, 1000);
+        }
     }
 
     render() {
-        console.log('render', this.props);
-        const { messages = [], count, handleClick } = this.props;
+        console.log('render', this.state);
+        const { messages = [] } = this.state;
 
         return (
             <Fragment>
@@ -46,23 +34,11 @@ class Messages extends Component {
                     ))}
                 </div>
 
-                <button onClick={handleClick}>{count}</button>
+                <button onClick={this.addMessage}>Send message</button>
             </Fragment>
         );
     }
 }
-
-// const Messages = (props) => {
-//     const { messages = [] } = props;
-
-//     return (
-//         <div className='messages'>
-//             {messages.map((item, index) => (
-//                 <Message key={index} text={item} />
-//             ))}
-//         </div>
-//     );
-// };
 
 const Message = (props) => {
     return <div className='my-class'>{props.text}</div>;
