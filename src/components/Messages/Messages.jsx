@@ -1,13 +1,17 @@
 import { Component, Fragment } from 'react';
+import { Message } from "../Message";
 
 class Messages extends Component {
     // useState
     state = {
-        messages: ['Hello world', 'How are you?'],
+        messages: [
+            {id: 0, msg: 'Test message 0', author: "Bugga"},
+            {id: 1, msg: 'Test message 1', author: "Lugga"}
+            ],
     };
 
     addMessage = () => {
-        this.setState({ messages: [...this.state.messages, 'Whassap?'] });
+        this.setState({ messages: [...this.state.messages, {msg: 'Whassap?', author: 'anonymous'}] });
     };
 
     // useEffect => didMount, didUpdate, willUnmount
@@ -16,7 +20,7 @@ class Messages extends Component {
         if (this.state.messages.length % 2 === 1) {
             setTimeout(() => {
                 this.setState({
-                    messages: [...this.state.messages, 'I am just robot'],
+                    messages: [...this.state.messages, {msg:'I am just robot', author:'ROBOT'}],
                 });
             }, 1000);
         }
@@ -30,7 +34,7 @@ class Messages extends Component {
             <Fragment>
                 <div className='messages'>
                     {messages.map((item, index) => (
-                        <Message key={index} text={item} />
+                        <Message key={index} message_id={index} text={item.msg} author={item.author} />
                     ))}
                 </div>
 
@@ -39,9 +43,5 @@ class Messages extends Component {
         );
     }
 }
-
-const Message = (props) => {
-    return <div className='my-class'>{props.text}</div>;
-};
 
 export { Messages };
